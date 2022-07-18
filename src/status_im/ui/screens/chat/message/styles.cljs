@@ -1,7 +1,8 @@
 (ns status-im.ui.screens.chat.message.styles
   (:require [quo.design-system.colors :as colors]
             [status-im.ui.components.react :as react]
-            [status-im.ui.screens.chat.styles.photos :as photos]))
+            [status-im.ui.screens.chat.styles.photos :as photos]
+            [quo2.foundations.colors :as quo2.colors]))
 
 (defn picker-wrapper-style [{:keys [display-photo? outgoing timeline]}]
   (merge {:flex-direction :row
@@ -48,7 +49,7 @@
    :border-top-width   1
    :border-top-color   (:ui-01 @colors/theme)})
 
-(defn reaction-style [{:keys [outgoing own]}]
+(defn reaction-style-old [{:keys [outgoing own]}]
   (merge {:border-top-left-radius     10
           :border-top-right-radius    10
           :border-bottom-right-radius 10
@@ -67,14 +68,33 @@
            {:border-top-left-radius 2
             :margin-right           4})))
 
-(defn reaction-quantity-style [{:keys [own]}]
+(defn reaction-style [{:keys [own]}]
+  (merge {:border-radius     8
+          :border-color (quo2.colors/theme-colors quo2.colors/neutral-10 quo2.colors/neutral-70)
+          :border-width 2
+          :width 43
+          :height 24
+          :gap 4
+          :flex-direction             :row
+          :margin-vertical            4
+          :margin-right           6
+          :align-items :center
+          :justify-content :center}
+         (when own
+           {:background-color (quo2.colors/theme-colors quo2.colors/neutral-10 quo2.colors/neutral-70)})))
+
+(defn reaction-quantity-style-old [{:keys [own]}]
   {:font-size   12
    :line-height 16
    :color       (if own
                   colors/white
                   (:text-01 @colors/theme))})
 
-(defn reactions-row [{:keys [outgoing display-photo?]} timeline]
+(def reaction-quantity-style
+  {:font-size   13
+   :line-height 18.2})
+
+(defn reactions-row-old [{:keys [outgoing display-photo?]} timeline]
   (merge {:flex-direction :row
           :padding-right  8}
          (if (and outgoing (not timeline))
@@ -83,6 +103,12 @@
          (if (or display-photo? timeline)
            {:padding-left (+ 30 photos/default-size (when timeline 8))}
            {:padding-left 30})))
+
+(defn reactions-row [timeline]
+  {:flex-direction :row
+   :padding-right  8
+   :justify-content :flex-start
+   :padding-left (+ 30 photos/default-size (when timeline 8))})
 
 (defn reaction-button [active]
   (merge {:width             40
