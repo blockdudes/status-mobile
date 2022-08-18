@@ -31,6 +31,7 @@
             [quo2.screens.list-items.preview-lists :as preview-lists]
             [quo2.screens.info.lowest-price :as lowest-price]
             [quo2.screens.avatars.channel-avatar :as channel-avatar]
+            [quo2.screens.tabs.account-selector :as account-selector]
             [re-frame.core :as re-frame]))
 
 (def screens-categories
@@ -87,7 +88,10 @@
            :component segmented/preview-segmented}
           {:name      :tabs
            :insets    {:top false}
-           :component tabs/preview-tabs}]
+           :component tabs/preview-tabs}
+          {:name      :account-selector
+           :insets    {:top false}
+           :component account-selector/preview-this}]
    :tags [{:name      :context-tags
            :insets    {:top false}
            :component context-tags/preview-context-tags}
