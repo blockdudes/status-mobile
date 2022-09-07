@@ -82,10 +82,10 @@
    :border-radius inner-dimensions})
 
 (defn container [inner-dimensions outer-dimensions & children]
-  (let [dark-kw (if dark? :dark :light)]
+  (let [bg-theme :light]
     [rn/view {:style (merge {:background-color (colors/custom-color
                                                 :turquoise
-                                                dark-kw)
+                                                bg-theme)
                              :justify-content :center
                              :align-items :center}
                             (container-styling inner-dimensions outer-dimensions))}
