@@ -2,7 +2,7 @@
   (:require [status-im.constants :as constants]
             [status-im.ui.screens.chat.message.styles :as styles]
             [quo.react-native :as rn]
-            [quo2.components.text :as quo2.text]))
+            [quo2.components.markdown.text :as quo2.text]))
 
 (defn reaction [_ {:keys [own emoji-id quantity]} _]
   [rn/view {:style (styles/reaction-style {:own      own})}
