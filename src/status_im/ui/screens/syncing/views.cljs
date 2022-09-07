@@ -18,24 +18,19 @@
                        :style {:margin-vertical 10}}]
     [rn/view {:style styles/device-column}
      [rn/text {:style styles/device-name} device-name]
-     [rn/text {:style styles/device-status} device-status]
-     ]
-    ]
-   ]
-  )
-
+     [rn/text {:style styles/device-status} device-status]]]])
 
 (defn views []
-    [rn/view {:style styles/container-main}
-     [rn/text {:style styles/synced-devices-text} (i18n/label :t/synced-devices)]
-     [rn/view {:style styles/devices-container}
-      [render-device "iPhone 11" "This device"]
-        [rn/view {:style styles/sync-device-container}
-         [quo2-button/button {:label :primary
-                              :size 40
-                              :before :main-icons2/placeholder
-                              :on-press #(>evt [:bottom-sheet/show-sheet
-                                                  { :showHandle? false
-                                                    :content (fn []
-                                                              [sync-device-notice/views])}])}
-                            "Sync New Device"]]]])
+  [rn/view {:style styles/container-main}
+   [rn/text {:style styles/synced-devices-text} (i18n/label :t/synced-devices)]
+   [rn/view {:style styles/devices-container}
+    [render-device "iPhone 11" "This device"]
+    [rn/view {:style styles/sync-device-container}
+     [quo2-button/button {:label :primary
+                          :size 40
+                          :before :main-icons2/placeholder
+                          :on-press #(>evt [:bottom-sheet/show-sheet
+                                            {:showHandle? false
+                                             :content (fn []
+                                                        [sync-device-notice/views])}])}
+      "Sync New Device"]]]])

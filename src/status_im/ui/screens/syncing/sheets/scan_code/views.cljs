@@ -9,12 +9,7 @@
             [status-im.react-native.resources :as resources]))
 
 (defn views []
-      (let [window-width @(re-frame/subscribe [:dimensions/window-width])]
-        [:<>
-          [rn/view {:style styles/body-container}
-             [rn/text {:style styles/header-text} "Scan code"]
-          ]
-
-       ]
-      )
-)
+  (let [window-width @(re-frame/subscribe [:dimensions/window-width])]
+    [:<>
+     [rn/view {:style styles/body-container}
+      [rn/text {:style styles/header-text} "Scan code"]]]))

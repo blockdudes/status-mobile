@@ -25,8 +25,7 @@
   [:<>
    [rn/view {:style styles/sync-devices-header}
     [react/image {:source (resources/get-image :sync-new-device)
-                  :style styles/sync-devices-header-image}]
-    ]
+                  :style styles/sync-devices-header-image}]]
    [rn/view {:style styles/sync-devices-body-container}
     [rn/text {:style styles/header-text} "Sync a new device"]
     [rn/text {:style styles/instructions-text} "You own your data. Syncronize it amoung all your devices."]
@@ -38,9 +37,9 @@
                          :style   styles/setup-syncing-button
                          :before  :main-icons2/face-id20
                          :on-press #(>evt [:bottom-sheet/show-sheet
-                                                               { :showHandle? false
-                                                                 :content (fn []
-                                                                            [sync-generated-code/views])}])}
+                                           {:showHandle? false
+                                            :content (fn []
+                                                       [sync-generated-code/views])}])}
      "Setup Syncing"]
 
     [rn/view {:style styles/secondary-body-container}
@@ -51,8 +50,8 @@
                           :style    styles/setup-syncing-button
                           :before   :main-icons2/face-id20
                           :on-press #(utils/show-confirmation {:title "We don't do that here"
-                                                              :confirm-button-text "Okay fineee"
-                                                              :cancel-button-text "but?"})}
+                                                               :confirm-button-text "Okay fineee"
+                                                               :cancel-button-text "but?"})}
       "Enter Sync Code"]
 
      [rn/text {:style styles/instructions-text} "OR"]
@@ -61,11 +60,7 @@
                           :style    styles/setup-syncing-button
                           :before   :main-icons2/face-id20
                           :on-press #(do
-                                      (re-frame/dispatch [:bottom-sheet/hide])
-                                      (re-frame/dispatch [::qr-scanner/scan-code
-                                                          {:handler ::qr-scanner/on-scan-success}]))}
-      "Scan Sync Code"]
-     ]
-
-    ]
-   ])
+                                       (re-frame/dispatch [:bottom-sheet/hide])
+                                       (re-frame/dispatch [::qr-scanner/scan-code
+                                                           {:handler ::qr-scanner/on-scan-success}]))}
+      "Scan Sync Code"]]]])

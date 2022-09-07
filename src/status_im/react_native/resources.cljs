@@ -53,8 +53,7 @@
    :lifestyle          (js/require "../resources/images/ui/lifestyle.png")
    :music              (js/require "../resources/images/ui/music.png")
    :podcasts           (js/require "../resources/images/ui/podcasts.png")
-   :sync-new-device    (js/require "../resources/images/ui/sync-new-device-cover-background.png")
-   })
+   :sync-new-device    (js/require "../resources/images/ui/sync-new-device-cover-background.png")})
 
 (defn get-theme-image [k]
   (get ui (when (colors/dark?) (keyword (str (name k) "-dark"))) (get ui k)))

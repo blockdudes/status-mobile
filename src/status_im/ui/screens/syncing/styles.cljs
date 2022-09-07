@@ -17,8 +17,8 @@
 
 (def device-row
   {:flex-direction :row
-    :padding-vertical 10
-    :padding-left 10})
+   :padding-vertical 10
+   :padding-left 10})
 
 (def device-name
   {:font-size 15

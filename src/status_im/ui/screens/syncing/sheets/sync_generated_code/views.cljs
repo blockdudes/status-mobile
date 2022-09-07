@@ -11,17 +11,12 @@
             [status-im.react-native.resources :as resources]))
 
 (defn views []
-      (let [window-width @(re-frame/subscribe [:dimensions/window-width])]
-        [:<>
-          [rn/view {:style styles/body-container}
-             [rn/text {:style styles/header-text} "Sync code generated"]
-             [qr-code-viewer/qr-code-view (* window-width 0.808) "some non sense"]
-             [information-box/information-box {:type      :informative
-                                               :closable? false
-                                               :icon      :main-icons2/placeholder
-                                               :style     {:margin-top 20}} "On your other device, navigate to the Syncing screen and select “Scan sync”"]
-          ]
-
-       ]
-      )
-)
+  (let [window-width @(re-frame/subscribe [:dimensions/window-width])]
+    [:<>
+     [rn/view {:style styles/body-container}
+      [rn/text {:style styles/header-text} "Sync code generated"]
+      [qr-code-viewer/qr-code-view (* window-width 0.808) "some non sense"]
+      [information-box/information-box {:type      :informative
+                                        :closable? false
+                                        :icon      :main-icons2/placeholder
+                                        :style     {:margin-top 20}} "On your other device, navigate to the Syncing screen and select “Scan sync”"]]]))
