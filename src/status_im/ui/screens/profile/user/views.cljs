@@ -168,7 +168,7 @@
        :accessibility-label :about-button
        :chevron             true
        :on-press            #(re-frame/dispatch [:navigate-to :about-app])}]
-     (if local-pairing-mode-enabled? [quo/list-item
+     (when local-pairing-mode-enabled? [quo/list-item
       {:icon                :main-icons/info
        :title               (i18n/label :t/syncing)
        :accessibility-label :synching

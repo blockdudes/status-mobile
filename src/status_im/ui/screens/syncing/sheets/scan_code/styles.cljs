@@ -1,4 +1,4 @@
-(ns status-im.ui.screens.syncing.sheets.sync-generated-code.styles
+(ns status-im.ui.screens.syncing.sheets.scan-code.styles
   (:require [clojure.string :as string]
             [quo.design-system.colors :as colors]))
 
