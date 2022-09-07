@@ -67,7 +67,8 @@
         @(re-frame/subscribe [:multiaccount])
         active-contacts-count @(re-frame/subscribe [:contacts/active-count])
         chain @(re-frame/subscribe [:chain-keyword])
-        registrar (stateofus/get-cached-registrar chain)]
+        registrar (stateofus/get-cached-registrar chain)
+        local-pairing-mode-enabled? @config/local-pairing-mode-enabled?]
     [:<>
      [visibility-status/visibility-status-button
       visibility-status/calculate-button-height-and-dispatch-popover]
@@ -167,12 +168,12 @@
        :accessibility-label :about-button
        :chevron             true
        :on-press            #(re-frame/dispatch [:navigate-to :about-app])}]
-     [quo/list-item
+     (if local-pairing-mode-enabled? [quo/list-item
       {:icon                :main-icons/info
        :title               (i18n/label :t/syncing)
        :accessibility-label :synching
        :chevron             true
-       :on-press            #(re-frame/dispatch [:navigate-to :settings-syncing])}]
+       :on-press            #(re-frame/dispatch [:navigate-to :settings-syncing])}])
      [react/view {:padding-vertical 24}
       [quo/list-item
        {:icon                :main-icons/log-out

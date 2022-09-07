@@ -29,7 +29,7 @@
     [rn/view {:style styles/container-main}
      [rn/text {:style styles/synced-devices-text} (i18n/label :t/synced-devices)]
      [rn/view {:style styles/devices-container}
-      [render-device "iPhone 11 Pro XL" "This device"]
+      [render-device "iPhone 11" "This device"]
         [rn/view {:style styles/sync-device-container}
          [quo2-button/button {:label :primary
                               :size 40

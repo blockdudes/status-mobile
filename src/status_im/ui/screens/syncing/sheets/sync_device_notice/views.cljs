@@ -26,7 +26,7 @@
                   :style styles/sync-devices-header-image}]
     ]
    [rn/view {:style styles/sync-devices-body-container}
-    [rn/text {:style styles/header-text} "Sync a bloody new device"]
+    [rn/text {:style styles/header-text} "Sync a new device"]
     [rn/text {:style styles/instructions-text} "You own your data. Syncronize it amoung all your devices."]
     [rn/text {:style styles/list-item-text} "1.  Verify login with password or KeyCard"]
     [rn/text {:style styles/list-item-text} "2.  Reveal a temporary QR and Sync Code"]
