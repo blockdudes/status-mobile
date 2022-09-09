@@ -940,6 +940,25 @@ class StatusModule extends ReactContextBaseJavaModule implements LifecycleEventL
         StatusThreadPoolExecutor.getInstance().execute(r);
     }
 
+//     @ReactMethod
+//     public void getConnectionStringForBootstrappingAnotherDevice(final String configJSON, final Callback callback) {
+//         Log.d(TAG, "getConnectionStringForBootstrappingAnotherDevice");
+//         if (!checkAvailability()) {
+//             callback.invoke(false);
+//             return;
+//         }
+//
+//         Runnable r = new Runnable() {
+//             @Override
+//             public void run() {
+//                 String res = Statusgo.getConnectionStringForBootstrappingAnotherDevice(configJSON);
+//                 callback.invoke(res);
+//             }
+//         };
+//
+//         StatusThreadPoolExecutor.getInstance().execute(r);
+//     }
+
     @ReactMethod
     public void hashTypedData(final String data, final Callback callback) {
         Log.d(TAG, "hashTypedData");

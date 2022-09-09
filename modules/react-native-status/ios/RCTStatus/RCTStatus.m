@@ -303,6 +303,16 @@ RCT_EXPORT_METHOD(hashMessage:(NSString *)message
     callback(@[result]);
 }
 
+//////////////////////////////////////////////////////////////////// getConnectionStringForBootstrappingAnotherDevice
+// RCT_EXPORT_METHOD(getConnectionStringForBootstrappingAnotherDevice:(NSString *)configJSON
+//                   callback:(RCTResponseSenderBlock)callback) {
+// #if DEBUG
+//     NSLog(@"getConnectionStringForBootstrappingAnotherDevice() method called");
+// #endif
+//     NSString *result = GetConnectionStringForBootstrappingAnotherDevice(configJSON);
+//     callback(@[result]);
+// }
+
 //////////////////////////////////////////////////////////////////// hashTypedData
 RCT_EXPORT_METHOD(hashTypedData:(NSString *)data
                   callback:(RCTResponseSenderBlock)callback) {
@@ -489,11 +499,11 @@ RCT_EXPORT_METHOD(saveAccountAndLoginWithKeycard:(NSString *)multiaccountData
 - (NSString *) getExportDbFilePath {
     NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"export.db"];
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    
+
     if ([fileManager fileExistsAtPath:filePath]) {
         [fileManager removeItemAtPath:filePath error:nil];
     }
-    
+
     return filePath;
 }
 
@@ -898,10 +908,10 @@ RCT_EXPORT_METHOD(exportUnencryptedDatabase:(NSString *)accountData
 #if DEBUG
     NSLog(@"exportUnencryptedDatabase() method called");
 #endif
-    
+
     NSString *filePath = [self getExportDbFilePath];
     StatusgoExportUnencryptedDatabase(accountData, password, filePath);
-    
+
     callback(@[filePath]);
 }
 

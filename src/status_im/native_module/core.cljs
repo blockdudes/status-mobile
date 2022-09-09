@@ -239,6 +239,12 @@
   (log/debug "[native-module] hash-message")
   (.hashMessage ^js (status) message callback))
 
+;(defn get-connection-string-for-bootstrapping-another-device
+;  "used for generating connection string for local pairing"
+;  [configJSON callback]
+;  (log/debug "[native-module] get-connection-string-for-bootstrapping-another-device")
+;  (.getConnectionStringForBootstrappingAnotherDevice ^js (status) configJSON callback))
+
 (defn hash-typed-data
   "used for keycard"
   [data callback]
