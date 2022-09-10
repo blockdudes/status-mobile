@@ -163,8 +163,7 @@
      (transactions/get-fetched-transfers))
    (when (ethereum/binance-chain? db)
      (wallet/request-current-block-update))
-   (prices/update-prices)
-   (wallet-connect-legacy/get-connector-session-from-db)))
+   (prices/update-prices)))
 
 (fx/defn login
   {:events [:multiaccounts.login.ui/password-input-submitted]}

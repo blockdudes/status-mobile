@@ -12,15 +12,6 @@
             [status-im.utils.handlers :refer [<sub]]
             [status-im.utils.utils :as utils]))
 
-(defn get-currently-selected-accounts
-  [selected-tab]
-  (-> selected-tab
-      second
-      :session
-      :params
-      first
-      :accounts))
-
 (defn account-selector-bottom-sheet [{:keys [session show-account-selector? idx]}]
   (reagent/create-class
    {:reagent-render       (fn []
@@ -71,13 +62,24 @@
            [rn/text {:style styles/selected-account} (:name selected-account)]])]]]]))
 
 (defn list-item [{:keys [session visible-accounts show-account-selector?]} idx]
-  [rn/view
-   [print-session-info {:session session
-                        :visible-accounts visible-accounts
-                        :show-account-selector? show-account-selector?}]
-   [account-selector-bottom-sheet {:session                session
-                                   :show-account-selector? show-account-selector?
-                                   :idx                    idx}]])
+    [rn/view
+     [print-session-info {:session session
+                          :visible-accounts visible-accounts
+                          :show-account-selector? show-account-selector?}]
+     [account-selector-bottom-sheet {:session                session
+                                     :show-account-selector? show-account-selector?
+                                     :idx                    idx}]])
+
+(defn items-list-comp []
+  (reagent/create-class
+   {:reagent-render (fn [items]
+                      [rn/flat-list {:flex                      1
+                                     :keyboardShouldPersistTaps :always
+                                     :data                      items
+                                     :render-fn                 list-item
+                                     :key-fn                    str}])
+    :component-did-update (fn [this old-argv]
+                            (js/alert (= (keys (first (second (reagent/argv this)))) (keys (first old-argv)))))}))
 
 (defn views []
   (let [legacy-sessions (<sub [:wallet-connect-legacy/sessions])
@@ -88,8 +90,4 @@
                                :show-account-selector? show-account-selector?
                                :session                session}))
                           legacy-sessions))]
-    [rn/flat-list {:flex                      1
-                   :keyboardShouldPersistTaps :always
-                   :data                      items
-                   :render-fn                 list-item
-                   :key-fn                    str}]))
+    [items-list-comp items]))
