@@ -25,7 +25,6 @@
             [status-im.utils.types :as types]
             [status-im.utils.utils :as utils]
             [status-im.wallet.core :as wallet]
-            [status-im.wallet-connect-legacy.core :as wallet-connect-legacy]
             [status-im.wallet.prices :as prices]
             [taoensso.timbre :as log]
             [status-im.data-store.invitations :as data-store.invitations]
