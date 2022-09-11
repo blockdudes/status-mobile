@@ -25,7 +25,7 @@
                                (assoc :wallet/recent-history-fetching-started? true)
                                (dissoc :wallet/on-recent-history-fetching))}
                 event
-                (assoc :dispatch event)) 
+                (assoc :dispatch event))
               (wallet-connect-legacy/get-connector-session-from-db))))
 
 (fx/defn recent-history-fetching-ended

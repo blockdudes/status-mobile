@@ -60,13 +60,13 @@
            [rn/text {:style styles/selected-account} (:name selected-account)]])]]]]))
 
 (defn list-item [{:keys [session visible-accounts show-account-selector?]} idx]
-    [rn/view
-     [print-session-info {:session session
-                          :visible-accounts visible-accounts
-                          :show-account-selector? show-account-selector?}]
-     [account-selector-bottom-sheet {:session                session
-                                     :show-account-selector? show-account-selector?
-                                     :idx                    idx}]])
+  [rn/view
+   [print-session-info {:session session
+                        :visible-accounts visible-accounts
+                        :show-account-selector? show-account-selector?}]
+   [account-selector-bottom-sheet {:session                session
+                                   :show-account-selector? show-account-selector?
+                                   :idx                    idx}]])
 
 (defn list-comp [sessions visible-accounts]
   (let [items (reagent/atom (doall (map (fn [session]
