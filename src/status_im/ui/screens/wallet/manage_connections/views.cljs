@@ -13,15 +13,13 @@
             [status-im.utils.utils :as utils]))
 
 (defn account-selector-bottom-sheet [{:keys [session show-account-selector? idx]}]
-  (reagent/create-class
-   {:reagent-render       (fn []
-                            (when @show-account-selector?
-                              [rn/view {:style (cond-> {:height 50}
-                                                 (= idx 0) (assoc :margin-top 50))}
-                               [bottom-panel/animated-bottom-panel
-                                session
-                                app-management-sheet-view
-                                true]]))}))
+  (when @show-account-selector?
+    [rn/view {:style (cond-> {:height 50}
+                       (= idx 0) (assoc :margin-top 50))}
+     [bottom-panel/animated-bottom-panel
+      session
+      app-management-sheet-view
+      true]]))
 
 (defn print-session-info [{:keys [session visible-accounts show-account-selector?]}]
   (let [peer-meta        (get-in session [:params 0 :peerMeta])
@@ -70,24 +68,20 @@
                                      :show-account-selector? show-account-selector?
                                      :idx                    idx}]])
 
-(defn items-list-comp []
-  (reagent/create-class
-   {:reagent-render (fn [items]
-                      [rn/flat-list {:flex                      1
-                                     :keyboardShouldPersistTaps :always
-                                     :data                      items
-                                     :render-fn                 list-item
-                                     :key-fn                    str}])
-    :component-did-update (fn [this old-argv]
-                            (js/alert (= (keys (first (second (reagent/argv this)))) (keys (first old-argv)))))}))
+(defn list-comp [sessions visible-accounts]
+  (let [items (reagent/atom (doall (map (fn [session]
+                                          (let [show-account-selector? (reagent/atom false)]
+                                            {:visible-accounts       visible-accounts
+                                             :show-account-selector? show-account-selector?
+                                             :session                session}))
+                                        @sessions)))]
+    [rn/flat-list {:flex                      1
+                   :keyboardShouldPersistTaps :always
+                   :data                      @items
+                   :render-fn                 list-item
+                   :key-fn                    str}]))
 
 (defn views []
-  (let [legacy-sessions (<sub [:wallet-connect-legacy/sessions])
-        visible-accounts (<sub [:visible-accounts-without-watch-only])
-        items (doall (map (fn [session]
-                            (let [show-account-selector? (reagent/atom false)]
-                              {:visible-accounts       visible-accounts
-                               :show-account-selector? show-account-selector?
-                               :session                session}))
-                          legacy-sessions))]
-    [items-list-comp items]))
+  (let [sessions (reagent/atom (<sub [:wallet-connect-legacy/sessions]))
+        visible-accounts (<sub [:visible-accounts-without-watch-only])]
+    [list-comp sessions visible-accounts]))

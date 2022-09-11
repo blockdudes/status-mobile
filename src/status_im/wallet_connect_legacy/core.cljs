@@ -100,9 +100,8 @@
 
 (re-frame/reg-fx
  :wc-1-update-session
- (fn [[^js connector chain-id address on-sucess]]
-   (.updateSession connector (clj->js {:chainId chain-id :accounts [address]}))
-   (on-sucess)))
+ (fn [[^js connector chain-id address]]
+   (.updateSession connector (clj->js {:chainId chain-id :accounts [address]}))))
 
 (re-frame/reg-fx
  :wc-1-kill-session
@@ -231,14 +230,10 @@
         dapp-name          (get-in session [:params 0 :peerMeta :name])
         dapp-url           (get-in session [:params 0 :peerMeta :url])
         peer-id            (get-in session [:params 0 :peerId])
-        chain-id           (get-in current-network [:config :NetworkId])
-        on-sucess          #(re-frame/dispatch [:wallet-connect-legacy/save-session {:peer-id   peer-id
-                                                                                     :dapp-url  dapp-url
-                                                                                     :dapp-name dapp-name
-                                                                                     :connector connector}])]
+        chain-id           (get-in current-network [:config :NetworkId])]
     (fx/merge cofx
               {:hide-wallet-connect-app-management-sheet nil
-               :wc-1-update-session                      [connector chain-id address on-sucess]
+               :wc-1-update-session                      [connector chain-id address]
                :db                                       (assoc db :wallet-connect/showing-app-management-sheet? false)})))
 
 (fx/defn disconnect-by-peer-id
