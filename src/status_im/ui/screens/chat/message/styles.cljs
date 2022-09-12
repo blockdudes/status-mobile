@@ -49,7 +49,7 @@
    :border-top-width   1
    :border-top-color   (:ui-01 @colors/theme)})
 
-(defn reaction-style-old [{:keys [outgoing own]}]
+(defn reaction-style [{:keys [outgoing own]}]
   (merge {:border-top-left-radius     10
           :border-top-right-radius    10
           :border-bottom-right-radius 10
@@ -68,31 +68,12 @@
            {:border-top-left-radius 2
             :margin-right           4})))
 
-(defn reaction-style [{:keys [own]}]
-  (merge {:border-radius     8
-          :border-color (quo2.colors/theme-colors quo2.colors/neutral-10 quo2.colors/neutral-70)
-          :border-width 2
-          :width 43
-          :height 24
-          :gap 4
-          :flex-direction             :row
-          :margin-vertical            4
-          :margin-right           6
-          :align-items :center
-          :justify-content :center}
-         (when own
-           {:background-color (quo2.colors/theme-colors quo2.colors/neutral-10 quo2.colors/neutral-70)})))
-
-(defn reaction-quantity-style-old [{:keys [own]}]
+(defn reaction-quantity-style [{:keys [own]}]
   {:font-size   12
    :line-height 16
    :color       (if own
                   colors/white
                   (:text-01 @colors/theme))})
-
-(def reaction-quantity-style
-  {:font-size   13
-   :line-height 18.2})
 
 (def screen-width
   (-> "window"

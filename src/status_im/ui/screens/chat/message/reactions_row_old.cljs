@@ -5,14 +5,14 @@
             [quo.core :as quo]))
 
 (defn reaction [{:keys [outgoing]} {:keys [own emoji-id quantity]} timeline]
-  [rn/view {:style (styles/reaction-style-old {:outgoing (and outgoing (not timeline))
-                                               :own      own})}
+  [rn/view {:style (styles/reaction-style {:outgoing (and outgoing (not timeline))
+                                           :own      own})}
    [rn/image {:source (get constants/reactions-old emoji-id)
               :style  {:width        16
                        :height       16
                        :margin-right 4}}]
    [quo/text {:accessibility-label (str "emoji-" emoji-id "-is-own-" own)
-              :style               (styles/reaction-quantity-style-old {:own own})}
+              :style               (styles/reaction-quantity-style {:own own})}
     quantity]])
 
 (defn message-reactions [message reactions timeline]
