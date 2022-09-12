@@ -5,7 +5,7 @@
             [quo.gesture-handler :as gh]
             [quo.design-system.spacing :as spacing]
             [quo2.foundations.colors :as colors :refer [theme-colors]]
-            [quo2.components.text :as text]
+            [quo2.components.markdown.text :as text]
             [quo.components.controls.view :as controls]
             [quo.components.tooltip :as tooltip]
             [status-im.ui.components.icons.icons :as icons]

@@ -4,7 +4,7 @@
             [re-frame.core :as re-frame]
             [status-im.ui.screens.wallet.components.views :as components]
             [status-im.constants :as constants]
-            [quo2.components.button :as quo2.button]
+            [quo2.components.buttons.button :as quo2.button]
             [quo2.foundations.colors :as quo2.colors]
             [quo2.components.list-item :as quo2.list-item]))
 
