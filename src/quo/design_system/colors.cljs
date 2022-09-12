@@ -62,7 +62,7 @@
    :interactive-02 "rgba(35,37,47,1)"
    :interactive-03 "rgba(255,255,255,0.1)"
    :interactive-04 "rgba(131,140,145,1)"
-   :ui-background  "rgba(20,20,20,1)"
+   :ui-background  "rgba(13,22,37,1)"
    :ui-01          "rgba(37,37,40,1)"
    :ui-02          "rgba(0,0,0,0.1)"
    :ui-03          "rgba(0,0,0,0.86)"

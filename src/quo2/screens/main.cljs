@@ -29,6 +29,7 @@
             [quo2.screens.wallet.token-overview :as token-overview]
             [quo2.screens.list-items.preview-lists :as preview-lists]
             [quo2.screens.info.lowest-price :as lowest-price]
+            [quo2.screens.avatars.account-avatar :as account-avatar]
             [re-frame.core :as re-frame]))
 
 (def screens-categories
@@ -43,7 +44,10 @@
              :component user-avatar/preview-user-avatar}
             {:name      :wallet-user-avatar
              :insets    {:top false}
-             :component wallet-user-avatar/preview-wallet-user-avatar}]
+             :component wallet-user-avatar/preview-wallet-user-avatar}
+            {:name      :quo2-account-avatar
+             :insets    {:top false}
+             :component account-avatar/preview-account-avatar}]
    :buttons [{:name      :button
               :insets    {:top false}
               :component button/preview-button}]
