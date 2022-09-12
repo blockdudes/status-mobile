@@ -2,25 +2,17 @@
   (:require [status-im.constants :as constants]
             [status-im.ui.screens.chat.message.styles :as styles]
             [quo.react-native :as rn]
-            [quo2.components.markdown.text :as quo2.text]))
+            [quo2.components.reactions.react :as quo2.react]))
 
-(defn reaction [_ {:keys [own emoji-id quantity]} _]
-  [rn/view {:style (styles/reaction-style {:own      own})}
-   [rn/image {:source (get constants/reactions emoji-id)
-              :style  {:width        16
-                       :height       16
-                       :margin-right 4}}]
-   [quo2.text/text {:accessibility-label (str "emoji-" emoji-id "-is-own-" own)
-                    :weight              :medium
-                    :color               :primary
-                    :ellipsize-mode      :tail
-                    :number-of-lines     1
-                    :style               styles/reaction-quantity-style}
-    quantity]])
-
-(defn message-reactions [message reactions timeline]
+(defn message-reactions [reactions timeline on-emoji-press on-open]
   (when (seq reactions)
     [rn/view {:style (styles/reactions-row timeline)}
-     (for [emoji-reaction reactions]
+     (for [{:keys [own emoji-id quantity] :as emoji-reaction} reactions]
        ^{:key (str emoji-reaction)}
-       [reaction message emoji-reaction timeline])]))
+       [rn/view {:style {:margin-right 6 :margin-top 5}}
+        [quo2.react/render-react {:emoji (get constants/reactions emoji-id)
+                                  :neutral? own
+                                  :clicks quantity
+                                  :on-press #(on-emoji-press emoji-id)}]])
+      ;; on-press won't work until we integrate Message Context Drawer
+     [quo2.react/open-reactions-menu {:on-press on-open}]]))

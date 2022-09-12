@@ -69,7 +69,7 @@
                                                       (and outgoing (= outgoing-status :sent)))
                                               (reset! actions act)
                                               (get-picker-position ref on-open)))}]
-          [reaction-row/message-reactions message reactions timeline]]
+          [reaction-row/message-reactions reactions timeline #(on-emoji-press %) on-open]]
          (when @visible
            [rn/modal {:on-request-close on-close
                       :on-show          (fn []

@@ -7,7 +7,7 @@
 (defn reaction [{:keys [outgoing]} {:keys [own emoji-id quantity]} timeline]
   [rn/view {:style (styles/reaction-style-old {:outgoing (and outgoing (not timeline))
                                                :own      own})}
-   [rn/image {:source (get constants/reactions emoji-id)
+   [rn/image {:source (get constants/reactions-old emoji-id)
               :style  {:width        16
                        :height       16
                        :margin-right 4}}]
