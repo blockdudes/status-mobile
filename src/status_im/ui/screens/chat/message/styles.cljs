@@ -93,7 +93,7 @@
   {:flex-direction :row
    :padding-right 8
    :justify-content :flex-start
-   :margin-top 6
+   :margin-top 5
    :flex-wrap :wrap
    :max-width (- screen-width (+ 30 photos/default-size (when timeline 8)))
    :margin-left (+ 30 photos/default-size (when timeline 8))})
