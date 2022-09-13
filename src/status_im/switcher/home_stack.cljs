@@ -6,7 +6,7 @@
             [status-im.switcher.constants :as constants]
             [status-im.switcher.bottom-tabs :as bottom-tabs]
             [status-im.ui.screens.profile.user.views :as profile.user]
-            [status-im.ui.screens.communities.communities-list-redesign :as communities]
+            [status-im.ui.screens.communities.communities-home :as communities-home]
             [status-im.ui.screens.wallet.accounts.views :as wallet.accounts]))
 
 (defn load-stack? [stack-id]
@@ -29,7 +29,7 @@
                                   :right            0
                                   :position         :absolute})}
         (case stack-id
-          :communities-stack [communities/communities-list]
+          :communities-stack [communities-home/views]
           :chats-stack       [home/home]
           :wallet-stack      [wallet.accounts/accounts-overview]
           :browser-stack     [profile.user/my-profile])])]))
