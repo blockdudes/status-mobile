@@ -92,7 +92,8 @@
   {:events [::request-success]}
   [{:keys [db] :as cofx} response-js]
   {:db       (dissoc db :mailserver/current-request)
-   :dispatch [:sanitize-messages-and-process-response response-js]})
+   :dispatch-n [[:sanitize-messages-and-process-response response-js]
+                [:wallet-connect-legacy/get-connector-session-from-db]]})
 
 (fx/defn handle-mailserver-not-working [{:keys [db] :as cofx}]
   (let [current-fleet (node/current-fleet-key db)

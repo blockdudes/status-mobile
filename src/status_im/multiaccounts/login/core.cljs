@@ -1,47 +1,48 @@
 (ns status-im.multiaccounts.login.core
-  (:require [re-frame.core :as re-frame]
+  (:require [clojure.string :as string]
+            [re-frame.core :as re-frame]
+            [status-im.async-storage.core :as async-storage]
+            [status-im.chat.models.link-preview :as link-preview]
+            [status-im.communities.core :as communities]
             [status-im.contact.core :as contact]
-            [status-im.utils.config :as config]
+            [status-im.data-store.chats :as data-store.chats]
+            [status-im.data-store.invitations :as data-store.invitations]
             [status-im.data-store.settings :as data-store.settings]
+            [status-im.data-store.visibility-status-updates :as visibility-status-updates-store]
             [status-im.ethereum.core :as ethereum]
-            [status-im.ethereum.transactions.core :as transactions]
             [status-im.ethereum.eip55 :as eip55]
             [status-im.ethereum.json-rpc :as json-rpc]
-            [status-im.keycard.common :as keycard.common]
+            [status-im.ethereum.tokens :as tokens]
+            [status-im.ethereum.transactions.core :as transactions]
             [status-im.fleet.core :as fleet]
             [status-im.i18n.i18n :as i18n]
+            [status-im.keycard.common :as keycard.common]
+            [status-im.mobile-sync-settings.core :as mobile-network]
             [status-im.multiaccounts.biometric.core :as biometric]
             [status-im.multiaccounts.core :as multiaccounts]
             [status-im.native-module.core :as status]
+            [status-im.navigation :as navigation]
+            [status-im.node.core :as node]
+            [status-im.notifications-center.core :as notifications-center]
             [status-im.notifications.core :as notifications]
             [status-im.popover.core :as popover]
-            [status-im.communities.core :as communities]
+            [status-im.signing.eip1559 :as eip1559]
             [status-im.transport.core :as transport]
-            [status-im.mobile-sync-settings.core :as mobile-network]
+            [status-im.ui.components.react :as react]
+            [status-im.utils.config :as config]
             [status-im.utils.fx :as fx]
             [status-im.utils.keychain.core :as keychain]
             [status-im.utils.logging.core :as logging]
+            [status-im.utils.mobile-sync :as utils.mobile-sync]
+            [status-im.utils.platform :as platform]
             [status-im.utils.security :as security]
             [status-im.utils.types :as types]
             [status-im.utils.utils :as utils]
+            [status-im.utils.wallet-connect :as wallet-connect]
+            [status-im.wallet-connect-legacy.core :as wallet-connect-legacy]
             [status-im.wallet.core :as wallet]
             [status-im.wallet.prices :as prices]
-            [taoensso.timbre :as log]
-            [status-im.data-store.invitations :as data-store.invitations]
-            [status-im.chat.models.link-preview :as link-preview]
-            [status-im.utils.mobile-sync :as utils.mobile-sync]
-            [status-im.async-storage.core :as async-storage]
-            [status-im.notifications-center.core :as notifications-center]
-            [status-im.navigation :as navigation]
-            [status-im.signing.eip1559 :as eip1559]
-            [status-im.data-store.chats :as data-store.chats]
-            [status-im.data-store.visibility-status-updates :as visibility-status-updates-store]
-            [status-im.ui.components.react :as react]
-            [status-im.utils.platform :as platform]
-            [status-im.ethereum.tokens :as tokens]
-            [clojure.string :as string]
-            [status-im.utils.wallet-connect :as wallet-connect]
-            [status-im.node.core :as node]))
+            [taoensso.timbre :as log]))
 
 (re-frame/reg-fx
  ::initialize-communities-enabled
@@ -162,7 +163,8 @@
      (transactions/get-fetched-transfers))
    (when (ethereum/binance-chain? db)
      (wallet/request-current-block-update))
-   (prices/update-prices)))
+   (prices/update-prices)
+   (wallet-connect-legacy/get-connector-session-from-db)))
 
 (fx/defn login
   {:events [:multiaccounts.login.ui/password-input-submitted]}

@@ -4,7 +4,6 @@
             [status-im.wallet.core :as wallet.core]
             [status-im.ethereum.transactions.core :as transactions]
             [status-im.utils.fx :as fx]
-            [status-im.wallet-connect-legacy.core :as wallet-connect-legacy]
             [taoensso.timbre :as log]))
 
 (fx/defn new-transfers
@@ -15,18 +14,16 @@
   (transactions/check-watched-transactions cofx))
 
 (fx/defn recent-history-fetching-started
-  [{:keys [db] :as cofx} accounts]
+  [{:keys [db]} accounts]
   (log/debug "[wallet-subs] recent-history-fetching-started"
              "accounts" accounts)
   (let [event (get db :wallet/on-recent-history-fetching)]
-    (fx/merge cofx
               (cond-> {:db (-> db
                                (transactions/update-fetching-status accounts :recent? true)
                                (assoc :wallet/recent-history-fetching-started? true)
                                (dissoc :wallet/on-recent-history-fetching))}
                 event
-                (assoc :dispatch event))
-              (wallet-connect-legacy/get-connector-session-from-db))))
+                (assoc :dispatch event))))
 
 (fx/defn recent-history-fetching-ended
   [{:keys [db]} {:keys [accounts blockNumber]}]

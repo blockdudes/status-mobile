@@ -369,7 +369,7 @@
       {:initialize-wc-sessions [chain-id sessions]})))
 
 (fx/defn get-connector-session-from-db
-  {:events [:get-connector-session-from-db]}
+  {:events [:wallet-connect-legacy/get-connector-session-from-db]}
   [_]
   {::json-rpc/call [{:method     "wakuext_getWalletConnectSession"
                      :on-success #(re-frame/dispatch [:sync-wallet-connect-app-sessions %])
