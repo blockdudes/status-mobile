@@ -1,12 +1,12 @@
 (ns status-im.network.net-info
-  (:require ["@react-native-community/netinfo" :default net-info]
-            [re-frame.core :as re-frame]
-            [status-im.mobile-sync-settings.core :as mobile-network]
+  (:require [re-frame.core :as re-frame]
             [status-im.native-module.core :as status]
+            [status-im.mobile-sync-settings.core :as mobile-network]
             [status-im.utils.fx :as fx]
-            [status-im.wallet-connect-legacy.core :as wallet-connect-legacy]
             [status-im.wallet.core :as wallet]
-            [taoensso.timbre :as log]))
+            ["@react-native-community/netinfo" :default net-info]
+            [taoensso.timbre :as log]
+            [status-im.wallet-connect-legacy.core :as wallet-connect-legacy]))
 
 (fx/defn change-network-status
   [{:keys [db] :as cofx} is-connected?]
