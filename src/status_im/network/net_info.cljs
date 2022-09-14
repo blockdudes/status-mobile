@@ -1,10 +1,11 @@
 (ns status-im.network.net-info
-  (:require [re-frame.core :as re-frame]
-            [status-im.native-module.core :as status]
+  (:require ["@react-native-community/netinfo" :default net-info]
+            [re-frame.core :as re-frame]
             [status-im.mobile-sync-settings.core :as mobile-network]
+            [status-im.native-module.core :as status]
             [status-im.utils.fx :as fx]
+            [status-im.wallet-connect-legacy.core :as wallet-connect-legacy]
             [status-im.wallet.core :as wallet]
-            ["@react-native-community/netinfo" :default net-info]
             [taoensso.timbre :as log]))
 
 (fx/defn change-network-status
@@ -39,6 +40,8 @@
                "type" type
                "details" details)
     (fx/merge cofx
+              (when connectivity-status
+                (wallet-connect-legacy/get-connector-session-from-db))
               (when-not status-changed?
                 (change-network-status isConnected))
               (when-not type-changed?

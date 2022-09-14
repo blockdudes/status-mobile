@@ -1,16 +1,18 @@
 (ns status-im.ui.screens.wallet.manage-connections.views
-  (:require [quo.core :as quo]
-            [quo.design-system.colors :as colors]
+  (:require [re-frame.core :as re-frame]
             [quo.react-native :as rn]
-            [re-frame.core :as re-frame]
-            [reagent.core :as reagent]
-            [status-im.ui.components.bottom-panel.views :as bottom-panel]
-            [status-im.ui.components.icons.icons :as icons]
             [status-im.ui.components.react :as react]
-            [status-im.ui.screens.wallet-connect.session-proposal.views :refer [app-management-sheet-view]]
             [status-im.ui.screens.wallet.manage-connections.styles :as styles]
+            [quo.core :as quo]
+            [quo.design-system.colors :as colors]
+            [status-im.ui.components.icons.icons :as icons]
+            [status-im.utils.utils :as utils]
+            [status-im.ui.screens.wallet-connect.session-proposal.views :refer [app-management-sheet-view]]
+            [status-im.ui.components.bottom-panel.views :as bottom-panel]
             [status-im.utils.handlers :refer [<sub]]
-            [status-im.utils.utils :as utils]))
+            [reagent.core :as reagent]))
+
+
 
 (defn account-selector-bottom-sheet [{:keys [session show-account-selector? idx]}]
   (when @show-account-selector?
