@@ -12,8 +12,6 @@
             [status-im.utils.handlers :refer [<sub]]
             [reagent.core :as reagent]))
 
-
-
 (defn account-selector-bottom-sheet [{:keys [session show-account-selector? idx]}]
   (when @show-account-selector?
     [rn/view {:style (cond-> {:height 50}
