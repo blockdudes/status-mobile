@@ -117,7 +117,7 @@ class TestGroupChatMultipleDeviceMerged(MultipleSharedDeviceTestCase):
 
         self.homes[2].click_system_back_button()
 
-        self.homes[2].just_fyi("Check grop chat appeared in chat list for a new member")
+        self.homes[2].just_fyi("Check new group appeared in chat list for a new member")
         if not self.homes[2].get_chat(self.chat_name).is_element_displayed(60):
             self.drivers[2].fail("New group chat hasn't appeared in chat list")
 
