@@ -18,12 +18,12 @@
   (log/debug "[wallet-subs] recent-history-fetching-started"
              "accounts" accounts)
   (let [event (get db :wallet/on-recent-history-fetching)]
-              (cond-> {:db (-> db
-                               (transactions/update-fetching-status accounts :recent? true)
-                               (assoc :wallet/recent-history-fetching-started? true)
-                               (dissoc :wallet/on-recent-history-fetching))}
-                event
-                (assoc :dispatch event))))
+    (cond-> {:db (-> db
+                     (transactions/update-fetching-status accounts :recent? true)
+                     (assoc :wallet/recent-history-fetching-started? true)
+                     (dissoc :wallet/on-recent-history-fetching))}
+      event
+      (assoc :dispatch event))))
 
 (fx/defn recent-history-fetching-ended
   [{:keys [db]} {:keys [accounts blockNumber]}]
