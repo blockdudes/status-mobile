@@ -417,6 +417,7 @@
     "delete-chat-confirmation": "Are you sure you want to delete this chat?",
     "delete-category-confirmation": "Are you sure you want to delete this category?",
     "delete-confirmation": "Delete?",
+    "delete-for-me": "Delete for me",
     "delete-mailserver": "Delete Status node",
     "delete-mailserver-are-you-sure": "Are you sure you want to delete this Status node?",
     "delete-mailserver-title": "Delete Status node",
@@ -1759,7 +1760,7 @@
     "send-contact-request-message": "To start a chat you need to become contacts",
     "contact-request": "Contact request",
     "say-hi": "Say hi",
-    "opened" : "Opened",
+    "opened": "Opened",
     "accepted": "Accepted",
     "declined": "Declined",
     "contact-request-header": "👋  Contact requests",
@@ -1776,11 +1777,10 @@
     "K": "K",
     "M": "M",
     "gated": "Gated",
-    "featured" : "Featured",
+    "featured": "Featured",
     "music": "Music",
     "lifestyle": "Lifestyle",
     "podcasts": "Podcasts",
-    "NFT":"NFT",
+    "NFT": "NFT",
     "new-messages-header": "New Messages"
-    
 }

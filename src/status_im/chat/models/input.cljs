@@ -1,20 +1,20 @@
 (ns status-im.chat.models.input
-  (:require [clojure.string :as string]
+  (:require ["emojilib" :as emojis]
+            [clojure.string :as string]
             [goog.object :as object]
             [re-frame.core :as re-frame]
-            [taoensso.timbre :as log]
             [status-im.chat.constants :as chat.constants]
-            [status-im.ethereum.json-rpc :as json-rpc]
             [status-im.chat.models :as chat]
+            [status-im.chat.models.mentions :as mentions]
             [status-im.chat.models.message :as chat.message]
             [status-im.chat.models.message-content :as message-content]
             [status-im.constants :as constants]
+            [status-im.ethereum.json-rpc :as json-rpc]
             [status-im.i18n.i18n :as i18n]
             [status-im.utils.datetime :as datetime]
             [status-im.utils.fx :as fx]
-            ["emojilib" :as emojis]
-            [status-im.chat.models.mentions :as mentions]
-            [status-im.utils.utils :as utils]))
+            [status-im.utils.utils :as utils]
+            [taoensso.timbre :as log]))
 
 (defn text->emoji
   "Replaces emojis in a specified `text`"
@@ -138,6 +138,16 @@
   {:events [:chat.ui/soft-delete-message]}
   [{:keys [db] :as cofx} {:keys [message-id chat-id]}]
   {::json-rpc/call [{:method      "wakuext_deleteMessageAndSend"
+                     :params      [message-id]
+                     :js-response true
+                     :on-error    #(log/error "failed to delete message message " %)
+                     :on-success  #(re-frame/dispatch [:sanitize-messages-and-process-response %])}]})
+
+(fx/defn soft-delete-message-for-me
+  "Does't delete from db, doesn't delete for other users, this is a soft delete"
+  {:events [:chat.ui/soft-delete-message-for-me]}
+  [{:keys [db] :as cofx} {:keys [message-id chat-id]}]
+  {::json-rpc/call [{:method      "wakuext_deleteMessageForMeAndSend"
                      :params      [message-id]
                      :js-response true
                      :on-error    #(log/error "failed to delete message message " %)

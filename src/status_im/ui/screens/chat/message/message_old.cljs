@@ -1,32 +1,32 @@
 (ns status-im.ui.screens.chat.message.message-old
-  (:require [re-frame.core :as re-frame]
+  (:require [quo.core :as quo]
+            [quo.design-system.colors :as colors]
+            [re-frame.core :as re-frame]
+            [reagent.core :as reagent]
+            [status-im.chat.models.images :as images]
+            [status-im.chat.models.pin-message :as models.pin-message]
+            [status-im.chat.models.reactions :as models.reactions]
             [status-im.constants :as constants]
             [status-im.i18n.i18n :as i18n]
             [status-im.react-native.resources :as resources]
-            [quo.design-system.colors :as colors]
+            [status-im.ui.components.animation :as animation]
+            [status-im.ui.components.fast-image :as fast-image]
             [status-im.ui.components.icons.icons :as icons]
             [status-im.ui.components.react :as react]
+            [status-im.ui.screens.chat.components.reply :as components.reply]
+            [status-im.ui.screens.chat.image.preview.views :as preview]
             [status-im.ui.screens.chat.message.audio-old :as message.audio]
-            [status-im.chat.models.reactions :as models.reactions]
             [status-im.ui.screens.chat.message.command :as message.command]
+            [status-im.ui.screens.chat.message.gap :as message.gap]
+            [status-im.ui.screens.chat.message.link-preview :as link-preview]
+            [status-im.ui.screens.chat.message.reactions :as reactions]
             [status-im.ui.screens.chat.photos :as photos]
             [status-im.ui.screens.chat.sheets :as sheets]
-            [status-im.ui.screens.chat.message.gap :as message.gap]
             [status-im.ui.screens.chat.styles.message.message-old :as style]
             [status-im.ui.screens.chat.utils :as chat.utils]
-            [status-im.utils.security :as security]
-            [status-im.ui.screens.chat.message.reactions :as reactions]
-            [status-im.ui.screens.chat.image.preview.views :as preview]
-            [quo.core :as quo]
-            [status-im.utils.config :as config]
-            [reagent.core :as reagent]
-            [status-im.ui.screens.chat.components.reply :as components.reply]
-            [status-im.ui.screens.chat.message.link-preview :as link-preview]
             [status-im.ui.screens.communities.icon :as communities.icon]
-            [status-im.ui.components.animation :as animation]
-            [status-im.chat.models.images :as images]
-            [status-im.chat.models.pin-message :as models.pin-message]
-            [status-im.ui.components.fast-image :as fast-image])
+            [status-im.utils.config :as config]
+            [status-im.utils.security :as security])
   (:require-macros [status-im.utils.views :refer [defview letsubs]]))
 
 (defn message-timestamp-anim
@@ -49,7 +49,7 @@
 
 (defview mention-element [from]
   (letsubs [contact-name [:contacts/contact-name-by-identity from]]
-    contact-name))
+           contact-name))
 
 (def edited-at-text (str " ⌫ " (i18n/label :t/edited)))
 
@@ -89,25 +89,25 @@
 (defview quoted-message
   [_ {:keys [from parsed-text image]} outgoing current-public-key public? pinned]
   (letsubs [contact-name [:contacts/contact-name-by-identity from]]
-    [react/view {:style (style/quoted-message-container (and outgoing (not pinned)))}
-     [react/view {:style style/quoted-message-author-container}
-      [chat.utils/format-reply-author
-       from
-       contact-name
-       current-public-key
-       (partial style/quoted-message-author (and outgoing (not pinned)))
-       (and outgoing (not pinned))]]
-     (if (and image
+           [react/view {:style (style/quoted-message-container (and outgoing (not pinned)))}
+            [react/view {:style style/quoted-message-author-container}
+             [chat.utils/format-reply-author
+              from
+              contact-name
+              current-public-key
+              (partial style/quoted-message-author (and outgoing (not pinned)))
+              (and outgoing (not pinned))]]
+            (if (and image
               ;; Disabling images for public-chats
-              (not public?))
-       [fast-image/fast-image {:style  {:width            56
-                                        :height           56
-                                        :background-color :black
-                                        :border-radius    4}
-                               :source {:uri image}}]
-       [react/text {:style           (style/quoted-message-text (and outgoing (not pinned)))
-                    :number-of-lines 5}
-        (components.reply/get-quoted-text-with-mentions parsed-text)])]))
+                     (not public?))
+              [fast-image/fast-image {:style  {:width            56
+                                               :height           56
+                                               :background-color :black
+                                               :border-radius    4}
+                                      :source {:uri image}}]
+              [react/text {:style           (style/quoted-message-text (and outgoing (not pinned)))
+                           :number-of-lines 5}
+               (components.reply/get-quoted-text-with-mentions parsed-text)])]))
 
 (defn render-inline [message-text outgoing pinned content-type acc {:keys [type literal destination]}]
   (case type
@@ -270,42 +270,42 @@
 
 (defview message-author-name [from opts]
   (letsubs [contact-with-names [:contacts/contact-by-identity from]]
-    (chat.utils/format-author-old contact-with-names opts)))
+           (chat.utils/format-author-old contact-with-names opts)))
 
 (defview message-my-name [opts]
   (letsubs [contact-with-names [:multiaccount/contact]]
-    (chat.utils/format-author-old contact-with-names opts)))
+           (chat.utils/format-author-old contact-with-names opts)))
 
 (defview community-content [{:keys [community-id] :as message}]
   (letsubs [{:keys [name description verified] :as community} [:communities/community community-id]
             communities-enabled? [:communities/enabled?]]
-    (when (and communities-enabled? community)
-      [react/view {:style (assoc (style/message-wrapper message)
-                                 :margin-vertical 10
-                                 :margin-left 8
-                                 :width 271)}
-       (when verified
-         [react/view (style/community-verified)
-          [react/text {:style {:font-size 13
-                               :color colors/blue}} (i18n/label :t/communities-verified)]])
-       [react/view (style/community-message verified)
-        [react/view {:width 62
-                     :padding-left 14}
-         (if (= community-id constants/status-community-id)
-           [react/image {:source (resources/get-image :status-logo)
-                         :style {:width 40
-                                 :height 40}}]
-           [communities.icon/community-icon community])]
-        [react/view {:padding-right 14 :flex 1}
-         [react/text {:style {:font-weight "700" :font-size 17}}
-          name]
-         [react/text description]]]
-       [react/view (style/community-view-button)
-        [react/touchable-highlight {:on-press #(re-frame/dispatch [:navigate-to
-                                                                   :community
-                                                                   {:community-id (:id community)}])}
-         [react/text {:style {:text-align :center
-                              :color colors/blue}} (i18n/label :t/view)]]]])))
+           (when (and communities-enabled? community)
+             [react/view {:style (assoc (style/message-wrapper message)
+                                        :margin-vertical 10
+                                        :margin-left 8
+                                        :width 271)}
+              (when verified
+                [react/view (style/community-verified)
+                 [react/text {:style {:font-size 13
+                                      :color colors/blue}} (i18n/label :t/communities-verified)]])
+              [react/view (style/community-message verified)
+               [react/view {:width 62
+                            :padding-left 14}
+                (if (= community-id constants/status-community-id)
+                  [react/image {:source (resources/get-image :status-logo)
+                                :style {:width 40
+                                        :height 40}}]
+                  [communities.icon/community-icon community])]
+               [react/view {:padding-right 14 :flex 1}
+                [react/text {:style {:font-weight "700" :font-size 17}}
+                 name]
+                [react/text description]]]
+              [react/view (style/community-view-button)
+               [react/touchable-highlight {:on-press #(re-frame/dispatch [:navigate-to
+                                                                          :community
+                                                                          {:community-id (:id community)}])}
+                [react/text {:style {:text-align :center
+                                     :color colors/blue}} (i18n/label :t/view)]]]])))
 
 (defn message-content-wrapper
   "Author, userpic and delivery wrapper"
@@ -418,7 +418,14 @@
                                            :prevent-closing? true}]))
       (re-frame/dispatch [::models.pin-message/send-pin-message (assoc message :pinned (not pinned))]))))
 
-(defn on-long-press-fn [on-long-press {:keys [pinned message-pin-enabled outgoing edit-enabled show-input?] :as message} content]
+(defn on-long-press-fn [on-long-press
+                        {:keys [pinned
+                                message-pin-enabled
+                                outgoing
+                                edit-enabled
+                                show-input?]
+                         :as   message}
+                        content]
   (on-long-press
    (concat
     (when (and outgoing edit-enabled)
@@ -438,6 +445,9 @@
       [{:on-press #(pin-message message)
         :label    (if pinned (i18n/label :t/unpin) (i18n/label :t/pin))
         :id       (if pinned :unpin :pin)}])
+    [{:on-press #(re-frame/dispatch [:chat.ui/soft-delete-message-for-me message])
+      :label    (i18n/label :t/delete-for-me)
+      :id       :delete-for-me}]
     (when (and outgoing config/delete-message-enabled?)
       [{:on-press #(re-frame/dispatch [:chat.ui/soft-delete-message message])
         :label    (i18n/label :t/delete)
@@ -587,25 +597,28 @@
     :as   reaction-picker}]
   [message-content-wrapper message
    [message-content-image message
-    {:modal         modal
-     :disabled      in-popover?
+    {:modal            modal
+     :disabled         in-popover?
      :delay-long-press 100
-     :on-long-press (fn []
-                      (on-long-press
-                       (concat [{:on-press #(re-frame/dispatch [:chat.ui/reply-to-message message])
-                                 :id       :reply
-                                 :label    (i18n/label :t/message-reply)}
-                                {:on-press #(re-frame/dispatch [:chat.ui/save-image-to-gallery (:image content)])
-                                 :id       :save
-                                 :label    (i18n/label :t/save)}
-                                {:on-press #(images/download-image-http
-                                             (get-in message [:content :image]) preview/share)
-                                 :id       :share
-                                 :label    (i18n/label :t/share)}]
-                               (when (and outgoing config/delete-message-enabled?)
-                                 [{:on-press #(re-frame/dispatch [:chat.ui/soft-delete-message message])
-                                   :label    (i18n/label :t/delete)
-                                   :id       :delete}]))))}]
+     :on-long-press    (fn []
+                         (on-long-press
+                          (concat [{:on-press #(re-frame/dispatch [:chat.ui/reply-to-message message])
+                                    :id       :reply
+                                    :label    (i18n/label :t/message-reply)}
+                                   {:on-press #(re-frame/dispatch [:chat.ui/save-image-to-gallery (:image content)])
+                                    :id       :save
+                                    :label    (i18n/label :t/save)}
+                                   {:on-press #(images/download-image-http
+                                                (get-in message [:content :image]) preview/share)
+                                    :id       :share
+                                    :label    (i18n/label :t/share)}]
+                                  [{:on-press #(re-frame/dispatch [:chat.ui/soft-delete-message-for-me message])
+                                    :label    (i18n/label :t/delete-for-me)
+                                    :id       :delete-for-me}]
+                                  (when (and outgoing config/delete-message-enabled?)
+                                    [{:on-press #(re-frame/dispatch [:chat.ui/soft-delete-message message])
+                                      :label    (i18n/label :t/delete)
+                                      :id       :delete}]))))}]
    reaction-picker])
 
 (defmethod ->message constants/content-type-audio []
@@ -617,11 +630,15 @@
        [react/touchable-highlight
         (when-not modal
           {:on-long-press
-           (fn [] (on-long-press (if (and outgoing config/delete-message-enabled?)
-                                   [{:on-press #(re-frame/dispatch [:chat.ui/soft-delete-message message])
-                                     :label    (i18n/label :t/delete)
-                                     :id       :delete}]
-                                   [])))
+           (fn [] (on-long-press
+                   (concat
+                    [{:on-press #(re-frame/dispatch [:chat.ui/soft-delete-message-for-me message])
+                      :label    (i18n/label :t/delete-for-me)
+                      :id       :delete-for-me}]
+                    (when (and outgoing config/delete-message-enabled?)
+                      [{:on-press #(re-frame/dispatch [:chat.ui/soft-delete-message message])
+                        :label    (i18n/label :t/delete)
+                        :id       :delete}]))))
            :on-press (fn []
                        (reset! show-timestamp? true))})
         [react/view (style/message-view-wrapper (:outgoing message))
