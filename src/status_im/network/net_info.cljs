@@ -31,18 +31,20 @@
   (let [old-network-status  (:network-status db)
         old-network-type    (:network/type db)
         connectivity-status (if isConnected :online :offline)
-        status-changed?     (= connectivity-status old-network-status)
-        type-changed?       (= type old-network-type)]
+        status-changed?     (not= connectivity-status old-network-status)
+        type-changed?       (= type old-network-type)
+        online?             (= connectivity-status :online)]
     (log/debug "[net-info]"
-               "old-network-status" old-network-status
-               "old-network-type" old-network-type
+               "old-network-status"  old-network-status
+               "old-network-type"    old-network-type
                "connectivity-status" connectivity-status
-               "type" type
-               "details" details)
+               "type"                type
+               "details"             details)
     (fx/merge cofx
-              (when connectivity-status
+              (when (and status-changed?
+                         online?)
                 (wallet-connect-legacy/get-connector-session-from-db))
-              (when-not status-changed?
+              (when status-changed?
                 (change-network-status isConnected))
               (when-not type-changed?
                 (change-network-type old-network-type type (:is-connection-expensive details))))))
