@@ -139,7 +139,7 @@
                         :padding-top        (:top insets)
                         :padding-bottom     8
                         :padding-horizontal 16
-                        :background-color   (:ui-background @colors/theme)}
+                        :background-color   (:quo2-preview-background @colors/theme)}
         [theme-switcher]
         [quo2-text/text {:size :heading-1} "Preview Quo2 Components"]
         [rn/view

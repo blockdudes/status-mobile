@@ -9,8 +9,11 @@
             [status-im.wallet-connect-legacy.core :as wallet-connect-legacy]))
 
 (fx/defn change-network-status
-  [{:keys [db] :as cofx} is-connected?]
+  [{:keys [db] :as cofx} is-connected? isInternetReachable online?]
   (fx/merge cofx
+            (when (and isInternetReachable
+                       online?)
+              (wallet-connect-legacy/get-connector-session-from-db))
             {:db (assoc db :network-status (if is-connected? :online :offline))}
             (when (and is-connected?
                        (or (not= (count (get-in db [:wallet :accounts]))
@@ -27,7 +30,7 @@
 
 (fx/defn handle-network-info-change
   {:events [::network-info-changed]}
-  [{:keys [db] :as cofx} {:keys [isConnected type details] :as state}]
+  [{:keys [db] :as cofx} {:keys [isConnected type details isInternetReachable] :as state}]
   (let [old-network-status  (:network-status db)
         old-network-type    (:network/type db)
         connectivity-status (if isConnected :online :offline)
@@ -41,11 +44,11 @@
                "type"                type
                "details"             details)
     (fx/merge cofx
-              (when (and status-changed?
-                         online?)
+              (when (and (not isInternetReachable)
+                         (not online?))
                 (wallet-connect-legacy/get-connector-session-from-db))
               (when status-changed?
-                (change-network-status isConnected))
+                (change-network-status isConnected isInternetReachable online?))
               (when-not type-changed?
                 (change-network-type old-network-type type (:is-connection-expensive details))))))
 
