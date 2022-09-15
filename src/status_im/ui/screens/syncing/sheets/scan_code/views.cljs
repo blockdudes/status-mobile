@@ -5,7 +5,7 @@
             [quo.core :as quo]
             [re-frame.core :as re-frame]
             [status-im.ui.components.react :as react]
-            [quo2.components.button :as quo2]
+            [quo2.components.buttons.button :as quo2]
             [status-im.react-native.resources :as resources]))
 
 (defn views []

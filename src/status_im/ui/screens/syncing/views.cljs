@@ -2,12 +2,12 @@
   (:require [quo.react-native :as rn]
             [status-im.ui.screens.syncing.styles :as styles]
             [status-im.i18n.i18n :as i18n]
-            [quo2.components.icon-avatar :as quo2]
+            [quo2.components.avatars.icon-avatar :as quo2]
             [quo.core :as quo]
             [re-frame.core :as re-frame]
             [status-im.ui.screens.syncing.sheets.sync-device-notice.views :as sync-device-notice]
             [status-im.utils.handlers :refer [>evt]]
-            [quo2.components.button :as quo2-button]))
+            [quo2.components.buttons.button :as quo2-button]))
 
 (defn render-device [device-name device-status]
   [:<>

@@ -12,7 +12,7 @@
             [status-im.i18n.i18n :as i18n]
             [status-im.utils.types :as types]
             [status-im.utils.utils :as utils]
-            [quo2.components.button :as quo2-button]
+            [quo2.components.buttons.button :as quo2-button]
             [status-im.utils.handlers :refer [>evt]]
             [status-im.qr-scanner.core :as qr-scanner]
             [status-im.react-native.resources :as resources]))
