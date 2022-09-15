@@ -4,9 +4,9 @@
             [quo.react-native :as rn]
             [quo2.components.reactions.react :as quo2.react]))
 
-(defn message-reactions [reactions timeline on-emoji-press on-open]
+(defn message-reactions [{:keys [content-type]} reactions timeline on-emoji-press on-open]
   (when (seq reactions)
-    [rn/view {:style (styles/reactions-row timeline)}
+    [rn/view {:style (styles/reactions-row timeline (if (= content-type constants/content-type-text) -3 5))}
      (for [{:keys [own emoji-id quantity] :as emoji-reaction} reactions]
        ^{:key (str emoji-reaction)}
        [rn/view {:style {:margin-right 6 :margin-top 5}}
