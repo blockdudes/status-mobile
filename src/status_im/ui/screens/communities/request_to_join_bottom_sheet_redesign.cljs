@@ -115,9 +115,8 @@
                              :display :flex
                              :justify-content :center}}
          [quo2.icon/icon  :main-icons2/info]]]
-
-       [quo2.context-tags/context-tag {:style {:margin-right :auto :margin-top 8}} (get-in community [:images :thumbnail :uri]) (:name community)]
-
+       ;; TODO address issue with context tag image
+      ;;  [quo2.context-tags/context-tag {:style {:margin-right :auto :margin-top 8}} (get-in community [:images :thumbnail :uri]) (:name community)]
        [quo2.text/text {:style {:margin-top 24}
                         :accessibility-label :communities-rules-title
                         :weight              :semi-bold
