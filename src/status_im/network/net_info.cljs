@@ -1,18 +1,21 @@
 (ns status-im.network.net-info
-  (:require [re-frame.core :as re-frame]
-            [status-im.native-module.core :as status]
+  (:require ["@react-native-community/netinfo" :default net-info]
+            [re-frame.core :as re-frame]
+            [reagent.core :as reagent]
             [status-im.mobile-sync-settings.core :as mobile-network]
+            [status-im.native-module.core :as status]
             [status-im.utils.fx :as fx]
+            [status-im.wallet-connect-legacy.core :as wallet-connect-legacy]
             [status-im.wallet.core :as wallet]
-            ["@react-native-community/netinfo" :default net-info]
-            [taoensso.timbre :as log]
-            [status-im.wallet-connect-legacy.core :as wallet-connect-legacy]))
+            [taoensso.timbre :as log]))
 
 (fx/defn change-network-status
-  [{:keys [db] :as cofx} is-connected? isInternetReachable online?]
+  [{:keys [db] :as cofx} is-connected? isInternetReachable app-went-offline?]
   (fx/merge cofx
-            (when (and isInternetReachable
-                       online?)
+            (when (and is-connected?
+                       isInternetReachable
+                       @app-went-offline?)
+              (swap! app-went-offline? not)
               (wallet-connect-legacy/get-connector-session-from-db))
             {:db (assoc db :network-status (if is-connected? :online :offline))}
             (when (and is-connected?
@@ -30,13 +33,15 @@
 
 (fx/defn handle-network-info-change
   {:events [::network-info-changed]}
-  [{:keys [db] :as cofx} {:keys [isConnected type details isInternetReachable] :as state}]
+  [{:keys [db] :as cofx} {:keys [isConnected type details isInternetReachable app-went-offline?] :as state}]
   (let [old-network-status  (:network-status db)
         old-network-type    (:network/type db)
         connectivity-status (if isConnected :online :offline)
         status-changed?     (not= connectivity-status old-network-status)
         type-changed?       (= type old-network-type)
-        online?             (= connectivity-status :online)]
+        _                   (when (and (not isConnected)
+                                       (not @app-went-offline?))
+                              (swap! app-went-offline? not))]
     (log/debug "[net-info]"
                "old-network-status"  old-network-status
                "old-network-type"    old-network-type
@@ -44,19 +49,18 @@
                "type"                type
                "details"             details)
     (fx/merge cofx
-              (when (and (not isInternetReachable)
-                         (not online?))
-                (wallet-connect-legacy/get-connector-session-from-db))
               (when status-changed?
-                (change-network-status isConnected isInternetReachable online?))
+                (change-network-status isConnected isInternetReachable app-went-offline?))
               (when-not type-changed?
                 (change-network-type old-network-type type (:is-connection-expensive details))))))
 
 (defn add-net-info-listener []
-  (when net-info
-    (.addEventListener ^js net-info
-                       #(re-frame/dispatch [::network-info-changed
-                                            (js->clj % :keywordize-keys true)]))))
+  (let [app-went-offline?       (reagent/atom false)]
+    (when net-info
+      (.addEventListener ^js net-info
+                         #(re-frame/dispatch [::network-info-changed
+                                              (-> (js->clj % :keywordize-keys true)
+                                                  (assoc :app-went-offline? app-went-offline?))])))))
 
 (re-frame/reg-fx
  ::listen-to-network-info
