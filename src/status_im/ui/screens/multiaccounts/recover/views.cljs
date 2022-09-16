@@ -10,6 +10,7 @@
             [status-im.utils.security]
             [quo.design-system.colors :as colors]
             [quo.core :as quo]
+            [status-im.qr-scanner.core :as qr-scanner]
             [status-im.react-native.resources :as resources]
             [status-im.ui.components.icons.icons :as icons]))
 
@@ -89,7 +90,14 @@
         [quo/list-item {:theme               :accent
                         :on-press            #(hide-sheet-and-dispatch [:multiaccounts.login.ui/export-db-submitted])
                         :icon                :main-icons/send
-                        :title               "Export unencrypted"}])]]))
+                        :title               "Export unencrypted"}])
+      (when config/local-pairing-mode-enabled?
+            [quo/list-item {:theme               :accent
+                            :on-press            #(hide-sheet-and-dispatch [::qr-scanner/scan-code {:handler ::qr-scanner/on-scan-success}])
+                            :icon                :main-icons/key
+                            :title               "Scan Sync Code"}])
+
+      ]]))
 
 (def bottom-sheet
   {:content bottom-sheet-view})
