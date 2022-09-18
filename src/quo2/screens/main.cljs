@@ -31,6 +31,7 @@
             [quo2.screens.list-items.preview-lists :as preview-lists]
             [quo2.screens.info.lowest-price :as lowest-price]
             [quo2.screens.avatars.channel-avatar :as channel-avatar]
+            [quo2.screens.list-items.dropdown :as dropdown]
             [re-frame.core :as re-frame]))
 
 (def screens-categories
@@ -108,7 +109,10 @@
              :component token-overview/preview-token-overview}]
    :list-items [{:name      :preview-lists
                  :insets    {:top false}
-                 :component preview-lists/preview-preview-lists}]})
+                 :component preview-lists/preview-preview-lists}
+                {:name      :dropdown
+                 :insets    {:top false}
+                 :component dropdown/preview-dropdown}]})
 
 (def screens (flatten (map val screens-categories)))
 
