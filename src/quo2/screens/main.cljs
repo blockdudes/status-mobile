@@ -31,6 +31,7 @@
             [quo2.screens.list-items.preview-lists :as preview-lists]
             [quo2.screens.info.lowest-price :as lowest-price]
             [quo2.screens.avatars.channel-avatar :as channel-avatar]
+            [quo2.screens.info.page-nav :as page-nav]
             [re-frame.core :as re-frame]))
 
 (def screens-categories
@@ -69,7 +70,10 @@
            :component information-box/preview-information-box}
           {:name      :lowest-price
            :insets    {:top false}
-           :component lowest-price/preview-lowest-price}]
+           :component lowest-price/preview-lowest-price}
+          {:name      :page-nav
+           :insets    {:top false}
+           :component page-nav/preview-page-nav}]
    :markdown [{:name      :texts
                :insets    {:top false}
                :component text/preview-text}]
