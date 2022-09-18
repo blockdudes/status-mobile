@@ -1,6 +1,5 @@
 (ns quo2.components.info.page-nav
-  (:require [clojure.string :as string]
-            [quo.react-native :as rn]
+  (:require [quo.react-native :as rn]
             [quo.theme :as theme]
             [quo2.foundations.colors :as colors]
             [status-im.ui.components.icons.icons :as icons]
@@ -107,7 +106,7 @@
                                         centrify
                                         [:style]
                                         #(assoc % :flex-direction    :row
-                                                  :margin-horizontal 2))
+                                                :margin-horizontal 2))
                                (when (and mid-section-description-user-icon
                                           (not horizontal-description?))
                                  [rn/image {:source {:uri mid-section-description-user-icon}
