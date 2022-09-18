@@ -13,6 +13,7 @@
             [quo2.screens.buttons.button :as button]
             [quo2.screens.counter.counter :as counter]
             [quo2.screens.community.community-card-view :as community-card]
+            [quo2.screens.dividers.new-messages :as new-messages]
             [quo2.screens.info.info-message :as info-message]
             [quo2.screens.info.information-box :as information-box]
             [quo2.screens.markdown.text :as text]
@@ -30,6 +31,7 @@
             [quo2.screens.list-items.preview-lists :as preview-lists]
             [quo2.screens.info.lowest-price :as lowest-price]
             [quo2.screens.avatars.account-avatar :as account-avatar]
+            [quo2.screens.avatars.channel-avatar :as channel-avatar]
             [re-frame.core :as re-frame]))
 
 (def screens-categories
@@ -48,6 +50,9 @@
             {:name      :account-avatar
              :insets    {:top false}
              :component account-avatar/preview-account-avatar}]
+            {:name      :channel-avatar
+             :insets    {:top false}
+             :component channel-avatar/preview-channel-avatar}]
    :buttons [{:name      :button
               :insets    {:top false}
               :component button/preview-button}]
@@ -57,6 +62,9 @@
    :counter [{:name      :counter
               :insets    {:top false}
               :component counter/preview-counter}]
+   :dividers [{:name      :new-messages
+               :insets    {:top false}
+               :component new-messages/preview-new-messages}]
    :info [{:name      :info-message
            :insets    {:top false}
            :component info-message/preview-info-message}
