@@ -10,10 +10,10 @@
                   :type    :select
                   :options [{:key   :main-icons/wallet
                              :value "Wallet"}
-                            {:key   :main-icons/placeholder
-                             :value "Placeholder"}
-                            {:key   :main-icons/peach20
-                             :value "Peach"}]}
+                            {:key   :main-icons/token
+                             :value "Token"}
+                            {:key   :main-icons/status
+                             :value "Status"}]}
                  {:label   "Size"
                   :key     :size
                   :type    :select
@@ -40,7 +40,7 @@
         [quo2/account-avatar @state]]])))
 
 (defn preview-account-avatar []
-  [rn/view {:background-color (:ui-background @colors/theme)
+  [rn/view {:background-color (:preview-background @colors/theme)
             :flex             1}
    [rn/flat-list {:flex                      1
                   :keyboardShouldPersistTaps :always

@@ -45,7 +45,7 @@
             {:name      :wallet-user-avatar
              :insets    {:top false}
              :component wallet-user-avatar/preview-wallet-user-avatar}
-            {:name      :quo2-account-avatar
+            {:name      :account-avatar
              :insets    {:top false}
              :component account-avatar/preview-account-avatar}]
    :buttons [{:name      :button
