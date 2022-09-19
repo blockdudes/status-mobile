@@ -90,13 +90,13 @@
            {:padding-left 30})))
 
 (defn reactions-row [timeline margin-top]
-  {:flex-direction :row
-   :padding-right 8
+  {:flex-direction  :row
+   :padding-right   8
    :justify-content :flex-start
-   :margin-top margin-top
-   :flex-wrap :wrap
-   :max-width (- screen-width (+ 30 photos/default-size (when timeline 8)))
-   :margin-left (+ 30 photos/default-size (when timeline 8))})
+   :margin-top      margin-top
+   :flex-wrap       :wrap
+   :max-width       (- screen-width (+ 30 photos/default-size (when timeline 8)))
+   :margin-left     (+ 30 photos/default-size (when timeline 8))})
 
 (defn reaction-button [active]
   (merge {:width             40

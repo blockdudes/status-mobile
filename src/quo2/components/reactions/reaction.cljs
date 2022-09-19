@@ -1,4 +1,4 @@
-(ns quo2.components.reactions.react
+(ns quo2.components.reactions.reaction
   (:require [quo2.components.markdown.text :as quo2-text]
             [quo.react-native :as rn]
             [quo.theme :as theme]
@@ -31,7 +31,7 @@
                 colors/white
                 colors/black)}]]))
 
-(defn render-react
+(defn reaction
   "Add your emoji as a param here"
   [{:keys [emoji clicks neutral? on-press]}]
   (let [dark? (theme/dark?)
