@@ -1,8 +1,5 @@
 image:
   file: .gitpod.Dockerfile
-tasks:
-  # - command: /opt/android-studio/bin/studio.sh
-  # - command: echo "Hello"
 ports:
   - port: 5900
     onOpen: ignore
