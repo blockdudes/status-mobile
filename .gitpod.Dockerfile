@@ -10,11 +10,6 @@ RUN addgroup --system nixbld \
   && mkdir -m 0755 /nix && chown gitpod /nix \
   && mkdir -p /etc/nix && echo 'sandbox = false' > /etc/nix/nix.conf
   
-# Install Nix
-CMD /bin/bash -l
-USER gitpod
-ENV USER gitpod
-WORKDIR /home/gitpod
 
 RUN touch .bash_profile \
  && curl https://nixos.org/releases/nix/nix-2.3.14/install | sh
