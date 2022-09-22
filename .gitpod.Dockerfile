@@ -1,5 +1,4 @@
-FROM gitpod/workspace-full-vnc:latest
-
+FROM gitpod/workspace-base
 
 USER root
 
