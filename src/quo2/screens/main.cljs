@@ -13,6 +13,7 @@
             [quo2.screens.avatars.user-avatar :as user-avatar]
             [quo2.screens.avatars.wallet-user-avatar :as wallet-user-avatar]
             [quo2.screens.buttons.button :as button]
+            [quo2.screens.buttons.dynamic-button :as dynamic-button]
             [quo2.screens.counter.counter :as counter]
             [quo2.screens.community.community-card-view :as community-card]
             [quo2.screens.dividers.divider-label :as divider-label]
@@ -44,6 +45,7 @@
             [quo2.screens.wallet.token-overview :as token-overview]
             [quo2.screens.wallet.network-breakdown :as network-breakdown]
             [quo2.screens.wallet.network-amount :as network-amount]
+            [quo2.screens.navigation.page-nav :as page-nav]
             [re-frame.core :as re-frame]))
 
 (def screens-categories
@@ -64,7 +66,10 @@
              :component channel-avatar/preview-channel-avatar}]
    :buttons [{:name      :button
               :insets    {:top false}
-              :component button/preview-button}]
+              :component button/preview-button}
+             {:name      :dynamic-button
+              :insets    {:top false}
+              :component dynamic-button/preview-dynamic-button}]
    :community [{:name      :community-cards
                 :insets    {:top false}
                 :component community-card/preview-community-card}]
@@ -106,7 +111,10 @@
                  :component bottom-nav-tab/preview-bottom-nav-tab}
                 {:name      :top-nav
                  :insets    {:top false}
-                 :component top-nav/preview-top-nav}]
+                 :component top-nav/preview-top-nav}
+                {:name      :page-nav
+                 :insets    {:top false}
+                 :component page-nav/preview-page-nav}]
    :notifications [{:name      :activity-logs
                     :insets    {:top false}
                     :component activity-logs/preview-activity-logs}]

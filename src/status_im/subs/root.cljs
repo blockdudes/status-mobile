@@ -179,9 +179,9 @@
 (reg-root-key-sub :ethereum/current-block :ethereum/current-block)
 
 ;;ens
-(reg-root-key-sub :ens/registration :ens/registration)
-(reg-root-key-sub :ens/registrations :ens/registrations)
-(reg-root-key-sub :ens/names :ens/names)
+(reg-root-key-sub :domain/registration :domain/registration)
+(reg-root-key-sub :domain/registrations :domain/registrations)
+(reg-root-key-sub :domain/names :domain/names)
 
 ;;signing
 (reg-root-key-sub :signing/sign :signing/sign)
@@ -228,6 +228,7 @@
 
 (reg-root-key-sub :activity.center/notifications :activity.center/notifications)
 (reg-root-key-sub :activity.center/notifications-count :activity.center/notifications-count)
+(reg-root-key-sub :activity-center :activity-center)
 
 (reg-root-key-sub :bug-report/description-error :bug-report/description-error)
 (reg-root-key-sub :bug-report/details :bug-report/details)
@@ -252,3 +253,5 @@
 (reg-root-key-sub :messenger/started? :messenger/started?)
 
 (reg-root-key-sub :information-box-states :information-box-states)
+
+(reg-root-key-sub :uns/tlds :uns/tlds)
